@@ -2,7 +2,7 @@
 Run tests to confirm that the Python &amp; Julia GerryChains produce the same adjacency matrices after reading in shapefiles
 
 ## Shapefiles
-You can download shapefiles from [mggg-states](https://github.com/mggg-states). Download the `.zip` file located in any of the [state]-shapefiles repositories, and then extract in the root folder of this repository. You should see (at least) a `.shp` and `.dbf` file in the resulting folder. I've already included the shapefile folders from Indiana, Virginia, and Utah, all of which were downloaded from mggg-states.
+You can download shapefiles from [mggg-states](https://github.com/mggg-states). Download the `.zip` file located in any of the [state]-shapefiles repositories, and then extract in the root folder of this repository. You should see (at least) a `.shp` and `.dbf` file in the resulting folder. I've already included the shapefile folders from Indiana, Virginia, Utah, and Minnesota 2012 precincts, all of which were downloaded from mggg-states.
 
 ## Performing a test
 The "test" we're interested in involves three steps. First, we read in a shapefile using the Python version of `GerryChain`, and then dump the resulting adjacency matrix (as well as the unique IDs of the geographical units that correspond to each row/column of this adjacency matrix in order) to a JSON file. Next, we do the same with Julia. Finally, we compare the resulting JSON dumps and confirm that they contain the same information. 
