@@ -77,6 +77,11 @@ end
 function adj_matrix_rtree(rows, poly, rtree, mbrs, adjacency; verbose=true)
   """ Constructs an adjacency matrix using the RTree.
   """
+  rtree = LibSpatialIndex.RTree(2) # RTree makes computation more efficient
+  # insert an MBR for each polygon in the RTree
+  for (i, mbr) in enumerate(mbrs)
+    LibSpatialIndex.insert!(rtree, i, mbr[1], mbr[2])
+  end
   adj_matrix = zeros(length(rows), length(rows))
   queen_adj = adjacency == "queen"
   for i in 1:length(rows)
@@ -162,15 +167,10 @@ poly = [construct_shape(c) for c in coords]
 adj = nothing
 println("Constructing adjacency matrix...")
 if parsed_args["bruteforce"]
-  adj = adj_matrix_bruteforce(rows, poly, parsed_args["adjacency"], verbose = !parsed_args["quiet"])
+  @time adj = adj_matrix_bruteforce(rows, poly, parsed_args["adjacency"], verbose = !parsed_args["quiet"])
 else
   mbrs = [construct_mbr(c) for c in coords]
-  rtree = LibSpatialIndex.RTree(2) # RTree makes computation more efficient
-  # insert an MBR for each polygon in the RTree
-  for (i, mbr) in enumerate(mbrs)
-    LibSpatialIndex.insert!(rtree, i, mbr[1], mbr[2])
-  end
-  adj = adj_matrix_rtree(rows, poly, rtree, mbrs, parsed_args["adjacency"], verbose = !parsed_args["quiet"])
+  @time adj = adj_matrix_rtree(rows, poly, rtree, mbrs, parsed_args["adjacency"], verbose = !parsed_args["quiet"])
 end
 ids = [getproperty(getfield(r, :record), Symbol(parsed_args["id_key"])) for r in rows]
 data_dump = Dict("order" => ids, "adj" => adj)

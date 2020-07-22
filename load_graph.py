@@ -20,6 +20,9 @@ def load_graph_from_shp(file_path, write_path, id_key, adjacency):
 
     # write matrix
     adj_mat = np.zeros((len(graph.nodes), len(graph.nodes)))
+    if id_key not in graph.nodes[0].keys():
+        print(id_key, "not found in node attributes.")
+        print("Attributes: ", graph.nodes[0].keys())
     ids = [graph.nodes[i][id_key] for i in range(len(graph.nodes))]
     for e in graph.edges:
         adj_mat[e[0], e[1]] = 1
