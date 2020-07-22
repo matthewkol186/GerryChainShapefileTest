@@ -74,7 +74,7 @@ function any_rook_intersection(poly_array₁, poly_array₂)
 end
 
 
-function adj_matrix_rtree(rows, poly, rtree, mbrs, adjacency; verbose=true)
+function adj_matrix_rtree(rows, poly, mbrs, adjacency; verbose=true)
   """ Constructs an adjacency matrix using the RTree.
   """
   rtree = LibSpatialIndex.RTree(2) # RTree makes computation more efficient
@@ -170,7 +170,7 @@ if parsed_args["bruteforce"]
   @time adj = adj_matrix_bruteforce(rows, poly, parsed_args["adjacency"], verbose = !parsed_args["quiet"])
 else
   mbrs = [construct_mbr(c) for c in coords]
-  @time adj = adj_matrix_rtree(rows, poly, rtree, mbrs, parsed_args["adjacency"], verbose = !parsed_args["quiet"])
+  @time adj = adj_matrix_rtree(rows, poly, mbrs, parsed_args["adjacency"], verbose = !parsed_args["quiet"])
 end
 ids = [getproperty(getfield(r, :record), Symbol(parsed_args["id_key"])) for r in rows]
 data_dump = Dict("order" => ids, "adj" => adj)
