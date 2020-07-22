@@ -160,6 +160,7 @@ poly = [construct_shape(c) for c in coords]
 
 
 adj = nothing
+println("Constructing adjacency matrix...")
 if parsed_args["bruteforce"]
   adj = adj_matrix_bruteforce(rows, poly, parsed_args["adjacency"], verbose = !parsed_args["quiet"])
 else
@@ -177,4 +178,5 @@ data_dump = Dict("order" => ids, "adj" => adj)
 # write to output file
 open(parsed_args["filename"], "w") do f
     write(f, JSON.json(data_dump))
- end
+end
+println("Wrote JSON output to ", parsed_args["filename"], ".")
