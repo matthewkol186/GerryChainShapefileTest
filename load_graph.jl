@@ -1,12 +1,11 @@
 import JSON
-using LibGEOS
-using DataFrames
-using Shapefile
 using Plots
-import LibSpatialIndex
 using Random
-using GeoInterface
 using ArgParse
+
+using LibGEOS
+using Shapefile
+import LibSpatialIndex
 
 function construct_shape(coordinates)
   """ Given coordinates, constructs an array of Polygons for a particular block.
